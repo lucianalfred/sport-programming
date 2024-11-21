@@ -1,31 +1,23 @@
-#include <iostream>
-#include <cmath>
-#include <algorithm>
-#include <climits>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int find_min_perimeter(long long A){
-    long long  min_perimeter = LLONG_MAX;
+int main(){
+    long long a;
 
-    for(long long l = 1; l * l <= A; ++l){
+    cin >> a;
+    long long b = LLONG_MAX;
+    for(long long i = 1; i <= sqrt(a); i++){
 
-        if(A % l == 0){
-            long long w = A / l;
-            long long perimeter = 2 * (l + w);
-
-            min_perimeter = min(min_perimeter, perimeter);
-        }
+        if(a % i == 0){
+            long long l = i;
+            long long w = a / i;
+            long long c = 2 *(l+w);
+            b = min(b,c); 
+        } 
     }
 
-    return min_perimeter;
-}
-
-int main(){
-    long long A;
-    cin >> A;
-
-    cout << find_min_perimeter(A) << endl;
+    cout << b << endl;
 
     return 0;
 }
