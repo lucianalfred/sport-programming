@@ -1,0 +1,252 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int n, L, a;
+    cin >> n >> L >> a;
+
+    vector<pair<int, int>> customers(n);
+    for (int i = 0; i < n; i++) {
+        cin >> customers[i].first >> customers[i].second;
+    }
+
+    int breaks = 0;
+    int lastTime = 0;
+
+    // Checar o tempo antes do primeiro cliente
+    if (n > 0) {
+        breaks += (customers[0].first - lastTime) / a;
+        lastTime = customers[0].first + customers[0].second; // Atualiza o tempo até o fim do atendimento
+    } else {
+        // Se não houver clientes, apenas calcula o tempo total
+        breaks += L / a;
+    }
+
+    // Checar entre os clientes
+    for (int i = 1; i < n; i++) {
+        breaks += (customers[i].first - lastTime) / a;
+        lastTime = customers[i].first + customers[i].second;
+    }
+
+    // Checar o tempo após o último cliente
+    breaks += (L - lastTime) / a;
+
+    cout << breaks << endl;
+
+    return 0;
+}
+
+
+Claro! Vamos detalhar a lógica do código e realizar alguns testes de mesa para entender melhor como funciona.
+
+### Lógica do Código
+
+1. **Entrada de Dados**:
+   - Lemos o número de clientes `n`, a duração do dia de trabalho `L` e a duração de cada pausa `a`.
+   - Lemos os tempos de chegada `ti` e a duração do atendimento `li` de cada cliente.
+
+2. **Cálculo de Intervalos**:
+   - Inicializamos `breaks` para contar o número total de pausas.
+   - Usamos `lastTime` para acompanhar o último tempo em que Vasya estava ocupado (ou seja, atendendo um cliente).
+  
+3. **Cálculo de Pausas**:
+   - **Antes do primeiro cliente**: Se há clientes, calculamos o tempo entre o início do dia (0) e o primeiro cliente.
+   - **Entre os clientes**: Para cada par de clientes, calculamos o tempo disponível entre o fim do atendimento do cliente anterior e o início do atendimento do próximo.
+   - **Após o último cliente**: Finalmente, calculamos o tempo restante após o último cliente até o final do dia.
+
+4. **Resultado**: O total de pausas é exibido.
+
+### Testes de Mesa
+
+Vamos realizar testes de mesa com exemplos.
+
+#### Exemplo 1:
+**Entrada**:
+```
+2 11 3
+0 1
+1 1
+```
+
+**Processo**:
+1. **Início do dia**: `lastTime = 0`.
+2. **Antes do primeiro cliente**:
+   - `ti[0] = 0`, `li[0] = 1`.
+   - Intervalo: \(0 - 0 = 0\).
+   - Pausas: \(0 / 3 = 0\).
+   - Atualiza: `lastTime = 0 + 1 = 1`.
+
+3. **Entre os clientes**:
+   - `ti[1] = 1`, `li[1] = 1`.
+   - Intervalo: \(1 - 1 = 0\).
+   - Pausas: \(0 / 3 = 0\).
+   - Atualiza: `lastTime = 1 + 1 = 2`.
+
+4. **Após o último cliente**:
+   - Intervalo: \(11 - 2 = 9\).
+   - Pausas: \(9 / 3 = 3\).
+
+**Total de pausas**: \(0 + 0 + 3 = 3\).
+
+#### Exemplo 2:
+**Entrada**:
+```
+0 5 2
+```
+
+**Processo**:
+1. **Sem clientes**: Apenas calcula o tempo total.
+2. **Intervalo total**: \(0 - 5\).
+3. Pausas: \(5 / 2 = 2\).
+
+**Total de pausas**: \(2\).
+
+#### Exemplo 3:
+**Entrada**:
+```
+1 3 2
+1 2
+```
+
+**Processo**:
+1. **Início do dia**: `lastTime = 0`.
+2. **Antes do primeiro cliente**:
+   - `ti[0] = 1`, `li[0] = 2`.
+   - Intervalo: \(1 - 0 = 1\).
+   - Pausas: \(1 / 2 = 0\).
+   - Atualiza: `lastTime = 1 + 2 = 3`.
+
+3. **Após o último cliente**:
+   - Intervalo: \(3 - 3 = 0\).
+   - Pausas: \(0 / 2 = 0\).
+
+**Total de pausas**: \(0 + 0 = 0\).
+
+### Resumo
+
+Nos exemplos acima, podemos ver como o código analisa os intervalos de tempo e calcula as pausas de forma eficiente. Cada passo é importante para garantir que Vasya maximize suas pausas, respeitando os horários dos clientes.
+
+Se precisar de mais exemplos ou explicações, é só avisar!
+
+
+
+To solve the problem of determining how many valid phone numbers can be created from a given set of digit cards, we can follow a straightforward approach based on the problem constraints.
+
+### Problem Breakdown
+
+1. **Phone Number Format**: A valid phone number must be 11 digits long, starting with the digit '8'. This means for each valid phone number, we need one '8' and ten additional digits.
+
+2. **Input Constraints**:
+   - We have up to 100 cards (digits).
+   - Each card contains a digit between '0' and '9'.
+
+3. **Key Observations**:
+   - To create one valid phone number, we need at least 11 digits in total.
+   - Specifically, we need at least one '8' and ten other digits.
+
+### Steps to Solve
+
+1. **Count Digits**: Count the number of '8's in the given string of digits.
+2. **Check Total Digits**: Determine the total number of digits available. If this number is less than 11, we cannot form any phone numbers.
+3. **Calculate Maximum Phone Numbers**:
+   - The maximum number of phone numbers we can create is limited by:
+     - The number of '8's we have.
+     - The total number of digits divided by 11 (since each phone number requires 11 digits).
+
+4. **Result**: The answer will be the minimum of the number of '8's and the integer division of total digits by 11.
+
+### Implementation in C++
+
+Here's how you can implement the above logic in C++:
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;  // Read the number of cards
+    string digits;
+    cin >> digits;  // Read the digits as a string
+
+    // Count the number of '8's and total digits
+    int countOf8 = 0;
+    for (char c : digits) {
+        if (c == '8') {
+            countOf8++;
+        }
+    }
+
+    // If there are fewer than 11 cards, we cannot form any phone number
+    if (n < 11) {
+        cout << 0 << endl;
+        return 0;
+    }
+
+    // Calculate the maximum number of phone numbers that can be created
+    int maxPhoneNumbers = min(countOf8, n / 11);
+    cout << maxPhoneNumbers << endl;
+
+    return 0;
+}
+```
+
+### Explanation of the Code
+
+1. **Input Handling**: We read the number of cards and the string of digits.
+2. **Counting '8's**: We iterate through the string to count how many '8's are present.
+3. **Feasibility Check**: If the total number of cards (`n`) is less than 11, we immediately print `0`.
+4. **Calculating the Result**: We compute the maximum number of phone numbers as the minimum of the count of '8's and the total number of cards divided by 11.
+5. **Output**: Finally, we print the result.
+
+### Examples Walkthrough
+
+- **Example 1**: 
+  - Input: `11` `00000000008`
+  - Output: `1` (one '8' and 10 zeros can make one valid number)
+
+- **Example 2**: 
+  - Input: `22` `0011223344556677889988`
+  - Output: `2` (two '8's can be used to form two phone numbers)
+
+- **Example 3**: 
+  - Input: `11` `31415926535`
+  - Output: `0` (no '8's present)
+
+This approach efficiently calculates the result in linear time relative to the number of digits, making it suitable for the problem's constraints.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;  // Read the number of cards
+    string digits;
+    cin >> digits;  // Read the digits as a string
+
+    // Count the number of '8's and total digits
+    int countOf8 = 0;
+    for (char c : digits) {
+        if (c == '8') {
+            countOf8++;
+        }
+    }
+
+    // If there are fewer than 11 cards, we cannot form any phone number
+    if (n < 11) {
+        cout << 0 << endl;
+        return 0;
+    }
+
+    // Calculate the maximum number of phone numbers that can be created
+    int maxPhoneNumbers = min(countOf8, n / 11);
+    cout << maxPhoneNumbers << endl;
+
+    return 0;
+}
