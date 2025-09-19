@@ -7,7 +7,7 @@ int main()
 
     scanf("%d %d %d %d", &a[0], &a[1], &a[2], &a[3]);
 
-    char s[105];
+    char s[100005];
     scanf("%s", s);
 
     int t = 0;

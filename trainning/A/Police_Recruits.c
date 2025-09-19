@@ -25,4 +25,4 @@ int main(void)
             res++;
     }
     printf("%d\n", res);
-}
+}3 4
