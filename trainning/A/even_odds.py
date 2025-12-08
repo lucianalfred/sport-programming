@@ -1,9 +1,11 @@
 n , k = map(int, input().strip().split())
-numbers = []
-for i in range(1, n + 1):
-    if (i % 2 == 1):
-        numbers.append(i)
-for i in range(1, n + 1):
-    if (i % 2 == 0):
-        numbers.append(i)
-print(numbers[k - 1])
+
+odds = 0
+if (n % 2) == 0:
+    odds = n // 2
+else:
+    odds = (n + 1) // 2
+if k <= odds:
+    print(2 *k - 1)
+else:
+    print(2 * (k  - odds))
