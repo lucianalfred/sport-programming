@@ -1,6 +1,3 @@
-from itertools import permutations
-
-
 n =  int(input())
 array = list(map(int, input().split()))
 
@@ -15,5 +12,5 @@ for x in array:
 if max(count) <= (n + 1) // 2:
     print("YES")
 else:
-    print("NO")
+    print("NO")\
 
