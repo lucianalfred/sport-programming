@@ -22,7 +22,13 @@ bool isValid(char* s) {
             stack[top] = current;
         }
         else{
-            if (top == -1)
+            if (top == -1){
+		    return false;
+	    }
+
+	    char ultimoAberto = pilha[topo];
+
+	    if ((current[i] == ')') && ultimoAberto == '(') || cuee
         }
 
     }
