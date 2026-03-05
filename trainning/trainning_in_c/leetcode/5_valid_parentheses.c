@@ -26,10 +26,48 @@ bool isValid(char* s) {
 		    return false;
 	    }
 
-	    char ultimoAberto = pilha[topo];
+	    char topChar = stack[top];
 
-	    if ((current[i] == ')') && ultimoAberto == '(') || cuee
-        }
+	    if ((current == ')' && topChar == '(') ||
+		(current == ']' && topChar == '[') ||
+		(current == '}' && topChar == '{') ){
+	    		top--;
+	    }
+	    else
+	    {
+		    return false;
+	    }
+ 	}
 
     }
+
+    return (top == -1);
 }
+
+int main() {
+    char* testes[] = {
+        "()",        // true
+        "()[]{}",    // true
+        "(]",        // false
+        "([])",      // true
+        "([)]",      // false
+        "{[]}",      // true
+        "(",         // false
+        ")",         // false
+        "(([]){})",  // true
+        "[({})](]"   // false
+    };
+
+    int numTestes = sizeof(testes) / sizeof(testes[0]);
+
+    for (int i = 0; i < numTestes; i++) {
+        bool resultado = isValid(testes[i]);
+        printf("Teste %d: \"%s\" -> %s\n", i+1, testes[i],
+               resultado ? "true" : "false");
+        printf("-------------------\n");
+    }
+
+    return 0;
+}
+
+
